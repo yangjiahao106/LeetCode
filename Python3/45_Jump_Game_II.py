@@ -23,6 +23,7 @@ class Solution:
 
         return jump + 1
 
+
 if __name__ == '__main__':
     so = Solution()
     res = so.jump([])
