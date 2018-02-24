@@ -2,6 +2,9 @@
 # __author__ = "YangJiaHao"
 # date: 2018/2/12
 class Solution:
+    """list remove 时间复杂度(n)
+        时间复杂度(n^2)
+    """
     def removeDuplicates(self, nums):
         """
         :type nums: List[int]
@@ -18,6 +21,7 @@ class Solution:
 
 
 class Solution2:
+    """时间复杂度 (n)"""
     def removeDuplicates(self, nums):
         """
         :type nums: List[int]

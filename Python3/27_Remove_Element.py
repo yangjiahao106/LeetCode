@@ -2,6 +2,7 @@
 # __author__ = "YangJiaHao"
 # date: 2018/2/12
 class Solution:
+    """左右双指针"""
     def removeElement(self, nums, val):
         """
         :type nums: List[int]
@@ -26,6 +27,7 @@ class Solution:
         return p1
 
 class Solution2:
+    """前后双指针"""
     def removeElement(self, nums, val):
         """
         :type nums: List[int]

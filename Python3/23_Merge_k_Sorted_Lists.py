@@ -12,47 +12,55 @@ class ListNode:
 
 
 class Solution:
+    """
+    递归 两两合并
+    错误：内存溢出
+    时间复杂度：O(m^n)
+    """
+
+    def merge(self, lists):
+        if len(lists) == 1:
+            return lists[0]
+        if lists[0] == None:
+            return self.merge(lists[1:])
+        if lists[1] == None:
+            return self.merge(lists[:1] + lists[2:])
+        l1, l2 = lists[0], lists[1]
+        node = head = ListNode(0)
+        while l1 and l2:
+            if l2.val <= l1.val:
+                node.next = l2
+                l2 = l2.next
+            else:
+                node.next = l1
+                l1 = l1.next
+            node = node.next
+        node.next = l1 if l1 else l2
+        lists.append(head.next)
+        return self.merge(lists[2:])
+
     def mergeKLists(self, lists):
         """
         :type lists: List[ListNode]
         :rtype: ListNode
-        error: use recursion, memory exceeded
         """
         if len(lists) == 0:
             return None
         if len(lists) == 1:
             return lists[0]
-
-        def merge(lists):
-            if len(lists) == 1:
-                return lists[0]
-            if lists[0] == None:
-                return merge(lists[1:])
-            if lists[1] == None:
-                return merge(lists[:1] + lists[2:])
-            l1, l2 = lists[0], lists[1]
-            node = head = ListNode(0)
-            while l1 and l2:
-                if l2.val <= l1.val:
-                    node.next = l2
-                    l2 = l2.next
-                else:
-                    node.next = l1
-                    l1 = l1.next
-                node = node.next
-            node.next = l1 if l1 else l2
-            lists.append(head.next)
-            return merge(lists[2:])
-
-        return merge(lists)
+        return self.merge(lists)
 
 
 class Solution1_1:
+    """
+    分治算法
+    runtime:600ms
+    """
+
     def mergeKLists(self, lists):
         """
         :type lists: List[ListNode]
         :rtype: ListNode
-        runtime:600ms
         """
         if len(lists) == 0:
             return None
@@ -60,9 +68,9 @@ class Solution1_1:
             return lists[0]
 
         def merge(l1, l2):
-            if l1 == None:
+            if l1 is None:
                 return l2
-            if l2 == None:
+            if l2 is None:
                 return l1
 
             node = head = ListNode(0)
@@ -85,12 +93,19 @@ class Solution1_1:
 
 
 import queue
+
+
 class Solution2:
+    """
+    优先队列
+    时间负责度：O(m * n * log n)
+    runtime: 250ms
+    """
+
     def mergeKLists(self, lists):
         """
         :type lists: List[ListNode]
         :rtype: ListNode
-        runtime: 250ms
         """
         if len(lists) == 0:
             return None
@@ -117,6 +132,11 @@ class Solution2:
 
 
 class Solution3:
+    """
+    获取所有节点的val，排序后重新建立列表
+    时间负责度 O(m*n)
+    """
+
     def mergeKLists(self, lists):
         """
         :type lists: List[ListNode]
@@ -140,6 +160,8 @@ class Solution3:
 
 
 import heapq
+
+
 class Solution4:
     def mergeKLists(self, lists):
         """
@@ -184,7 +206,7 @@ if __name__ == '__main__':
     l3.next = ListNode(8)
     l3.next.next = ListNode(9)
 
-    so = Solution2()
+    so = Solution3()
     ret = so.mergeKLists([l1, None, l2, l3])
     print("return: ", ret)
 

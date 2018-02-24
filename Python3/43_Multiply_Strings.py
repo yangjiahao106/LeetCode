@@ -51,11 +51,11 @@ def multiply(num1, num2):
             product[tempPos] %= 10
             tempPos -= 1
         pos -= 1
-
     pt = 0
     while pt < len(product) - 1 and product[pt] == 0:
         pt += 1
     return ''.join(map(str, product[pt:]) or [0])
+
 
 if __name__ == '__main__':
     so = Solution()

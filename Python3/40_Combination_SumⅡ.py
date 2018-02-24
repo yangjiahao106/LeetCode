@@ -28,6 +28,7 @@ class Solution1_1:
         :type candidates: List[int]
         :type target: int
         :rtype: List[List[int]]
+        #深度优先搜索，O()
         """
         candidates.sort()
         all_res = []
@@ -91,6 +92,17 @@ class Solution3(object):
                     dp[t].add(prev + (num,))
         return list(dp[-1])
 
+
+def combinationSum2(self, candidates, target):
+    candidates.sort()
+    table = [None] + [set() for i in range(target)]
+    for i in candidates:
+        if i > target:
+            break
+        for j in range(target - i, 0, -1):
+            table[i + j] |= {elt + (i,) for elt in table[j]}
+        table[i].add((i,))
+    return map(list, table[target])
 
 if __name__ == '__main__':
     so = Solution1_1()
