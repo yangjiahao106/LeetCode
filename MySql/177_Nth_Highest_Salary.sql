@@ -7,3 +7,4 @@ set M=N-1;
       order by Salary desc limit 1 offset M
   );
 END
+
