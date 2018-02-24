@@ -20,7 +20,21 @@ class Solution:
         return start
 
 
+import bisect
+
+
+class Solution2:
+    def searchInsert(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: int
+        """
+        # return len([x for x in nums if x < target])
+        return bisect.bisect_left(nums, target)
+
+
 if __name__ == '__main__':
-    so = Solution()
-    res = so.searchInsert([1,2,4,5], 3)
+    so = Solution2()
+    res = so.searchInsert([1, 2, 2, 4, 5], 2)
     print(res)

@@ -53,7 +53,6 @@ class Solution3:
         :type height: List[int]
         :rtype: int
         时间复杂度 O(n)
-
         """
         left = 0
         right = len(height)-1
