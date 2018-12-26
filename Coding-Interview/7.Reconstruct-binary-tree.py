@@ -11,17 +11,23 @@ class TreeNode(object):
 
 
 class Solution(object):
+    """根据树的前序遍历和中序遍历重建二叉树"""
+
     # 返回构造的TreeNode根节点
     def reConstructBinaryTree(self, pre, tin):
         # write code here
         if not pre:
             return None
+
         root = TreeNode(pre[0])
         mid = tin.index(pre[0])
+
         root.left = self.reConstructBinaryTree(pre[1:mid + 1], tin[:mid])
         root.right = self.reConstructBinaryTree(pre[mid + 1:], tin[mid + 1:])
+
         return root
+
 
 if __name__ == '__main__':
     so = Solution()
-    res = so.reConstructBinaryTree(list('12473568'),list('47215386'))
+    res = so.reConstructBinaryTree(list('12473568'), list('47215386'))
