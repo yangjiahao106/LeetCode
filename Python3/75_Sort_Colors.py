@@ -10,7 +10,7 @@ class Solution:
         时间复杂度O(3n)
         """
         slow = 0
-        start = 0 # fast指针起始位置
+        start = 0  # fast指针起始位置
         for color in range(3):
             for fast in range(start, len(nums)):
                 if nums[fast] == color:  # 颜色
@@ -18,7 +18,7 @@ class Solution:
                     slow += 1
             start = slow
 
-        # print(nums)
+            # print(nums)
 
     class Solution:
         def sortColors(self, nums):
@@ -28,18 +28,17 @@ class Solution:
             时间复杂度O(n)
             """
             l, m, r = 0, 0, len(nums) - 1
-
             while m <= r:
-
                 if nums[m] == 0:
-                    nums[l], nums[m] = nums[m], nums[l]
+                    nums[l], nums[m] = nums[m], nums[l]  # L指向1，不用再判断 所以 m += 1。
                     m += 1
                     l += 1
-                elif nums[m] == 1:
-                    m += 1
-                else:
-                    nums[m], nums[r] = nums[r], nums[m]
+                elif nums[m] == 2:
+                    nums[m], nums[r] = nums[r], nums[m]  # 后面交换过来的，需要再次判断，所以 m 不动
                     r -= 1
+                else:
+                    m += 1
+
 
 # class Solution {
 # public:
@@ -56,4 +55,4 @@ class Solution:
 
 if __name__ == '__main__':
     so = Solution()
-    res = so.sortColors([0, 1,2,0,1, 2, 1,2, 1, 0])
+    res = so.sortColors([0, 1, 2, 0, 1, 2, 1, 2, 1, 0])

@@ -12,7 +12,6 @@
 求这个最小的时间。
 '''
 
-
 def doubleCore(work):
     n = sum(work) // 2
 
@@ -39,18 +38,19 @@ def doubleCore(work):
 # 问题二
 # 讲DP基本都会讲到的一个问题LIS：longest increasing sub-sequence
 # http://www.deeplearn.me/216.html
-def LIS():
-    lis = [2, 1, 5, 3, 6, 4, 8, 9, 7]
+class Solution:
+    def lengthOfLIS(self, nums: [int]) -> int:
+        if len(nums) == 0:
+            return 0
 
-    d = [1] * len(lis)
-    res = 1
-    for i in range(len(lis)):
-        for j in range(i):
-            if lis[j] <= lis[i] and d[i] < d[j] + 1:
-                d[i] = d[j] + 1
-            if d[j] > res:
-                res = d[j]
-    print(res)
+        d = [1] * len(nums)
+
+        for i in range(len(nums)):
+            for j in range(i):
+                if nums[i] > nums[j] and d[j] + 1 > d[i]:
+                    d[i] = d[j] + 1
+
+        return max(d)
 
 
 # 问题三
@@ -80,11 +80,13 @@ def maxSubString(nums):
     dp = [nums[0]] * len(nums)
 
     res = nums[0]
+
     for i in range(1, len(nums)):
         dp[i] = max(dp[i - 1] + nums[i], nums[i])
         res = max(res, dp[i])
     print(res)
     return res
+
 
 
 # 问题五
@@ -94,6 +96,7 @@ def maxSubString(nums):
 
 
 def allPossibility(nums, target):
+
     dp = [[1] + [0] * (target) for i in range(len(nums) + 1)]
     print(dp)
 
