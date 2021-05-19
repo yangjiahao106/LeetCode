@@ -8,7 +8,7 @@ class Solution:
         :rtype: void Do not return anything, modify nums in-place instead.
         """
         for i in range(len(nums) - 2, -1, -1):
-            if nums[i + 1] > nums[i]:
+            if nums[i] < nums[i + 1]:
                 for j in range(len(nums) - 1, 0, -1):
                     if nums[j] > nums[i]:
                         nums[i], nums[j] = nums[j], nums[i]
@@ -16,7 +16,6 @@ class Solution:
                         return
 
         self.reverse(nums, 0)
-        # print(nums)
 
     def reverse(self, nums, start):
         end = len(nums) - 1
