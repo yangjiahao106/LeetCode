@@ -11,7 +11,6 @@ class Solution:
         length = len(s)
         start = 0
         end = 1
-        center = 0
         for center in range(length):
             len1 = self.expand(s, length, center, center)
             if center < length-1 and s[center] == s[center+1]:
@@ -29,44 +28,6 @@ class Solution:
             right +=1
         return right - left -1
 
-
-class Solution1:
-    def longestPalindrome(self, s):
-        """
-        :type s: str
-        :rtype: str
-        :runtime: over time
-        """
-        palindromic = ""
-        for i, v in enumerate(s):
-            start = i
-            end = i + 1
-            length = len(s)
-
-            while end <= length and start >= 0:
-                if self.is_palindromic(s[start:end]):
-
-                    if (end - start) > len(palindromic):
-                        palindromic = s[start:end]
-
-                    end += 1
-                else:
-                    start -= 1
-                    if not self.is_palindromic(s[start:end]):
-                        break
-
-        return palindromic
-
-    def is_palindromic(self, s):
-        start = 0
-        end = len(s) - 1
-        while end > start:
-            if s[start] != s[end]:
-                return False
-            else:
-                end -= 1
-                start += 1
-        return True
 
 class Solution2:
     def longestPalindrome(self, s):
