@@ -3,18 +3,6 @@
 # date: 2018/12/25
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 def duplicate(nums):
     length = len(nums)
 

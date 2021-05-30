@@ -22,6 +22,7 @@ class Solution:
 
 from queue import Queue
 
+
 # 两个queue 实现stack
 class MyStack(object):
     def __init__(self):

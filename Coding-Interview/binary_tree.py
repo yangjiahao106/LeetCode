@@ -125,7 +125,6 @@ def rebuild_binary_tree(pre, tin):
     root = Node(val)
 
     root.left = rebuild_binary_tree(pre[1:index + 1], tin[:index])
-
     root.right = rebuild_binary_tree(pre[index + 1:], tin[index + 1:])
 
     return root
