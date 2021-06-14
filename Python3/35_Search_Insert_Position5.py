@@ -34,6 +34,27 @@ class Solution2:
         return bisect.bisect_left(nums, target)
 
 
+class Solution:
+    def searchInsert(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: int
+        """
+        if nums[-1] < target: # 处理特殊情况
+            return len(nums)
+
+        start, end = 0, len(nums) - 1
+        while start < end:
+            m = start + (end - start) // 2
+            if nums[m] == target:
+                return m
+            if nums[m] < target:
+                start = m + 1
+            else:
+                end = m
+        return start
+
 if __name__ == '__main__':
     so = Solution2()
     res = so.searchInsert([1, 2, 2, 4, 5], 2)

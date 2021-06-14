@@ -19,11 +19,11 @@ class Solution:
     def helper(self, v, root) -> int:
         if root is None:
             return 0
-
+        v = v * 10 + root.val
         if root.left is None and root.right is None:
-            return v * 10 + root.val
+            return v
 
-        return self.helper(v * 10 + root.val, root.left) + self.helper(v * 10 + root.val, root.right)
+        return self.helper(v, root.left) + self.helper(v, root.right)
 
 
 class Solution2:
