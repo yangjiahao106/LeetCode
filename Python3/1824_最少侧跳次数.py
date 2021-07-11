@@ -111,3 +111,5 @@ class Solution:
 if __name__ == '__main__':
     # print(Solution().minSideJumps([0, 2, 1, 0, 3, 0]))
     print(Solution().minSideJumps([0, 1, 1, 3, 3, 0]))
+
+    from functools import lru_cache

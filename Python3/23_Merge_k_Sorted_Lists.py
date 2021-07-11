@@ -13,186 +13,104 @@ class ListNode:
 
 class Solution:
     """
-    递归 两两合并
-    错误：内存溢出
-    时间复杂度：O(m^n)
-    """
-
-    def merge(self, lists):
-        if len(lists) == 1:
-            return lists[0]
-        if lists[0] == None:
-            return self.merge(lists[1:])
-        if lists[1] == None:
-            return self.merge(lists[:1] + lists[2:])
-        l1, l2 = lists[0], lists[1]
-        node = head = ListNode(0)
-        while l1 and l2:
-            if l2.val <= l1.val:
-                node.next = l2
-                l2 = l2.next
-            else:
-                node.next = l1
-                l1 = l1.next
-            node = node.next
-        node.next = l1 if l1 else l2
-        lists.append(head.next)
-        return self.merge(lists[2:])
-
-    def mergeKLists(self, lists):
-        """
-        :type lists: List[ListNode]
-        :rtype: ListNode
-        """
-        if len(lists) == 0:
-            return None
-        if len(lists) == 1:
-            return lists[0]
-        return self.merge(lists)
-
-
-class Solution1_1:
-    """
-    分治算法
-    runtime:600ms
+    分治算法, 参考归并排序
+    runtime:76ms
     """
 
     def mergeKLists(self, lists):
-        """
-        :type lists: List[ListNode]
-        :rtype: ListNode
-        """
         if len(lists) == 0:
             return None
-        if len(lists) == 1:
-            return lists[0]
 
-        def merge(l1, l2):
-            if l1 is None:
-                return l2
-            if l2 is None:
-                return l1
+        def merge(list1, list2):
+            if len(list1) > 1:
+                m = len(list1) // 2
+                list1 = merge(list1[:m], list1[m:])
 
-            node = head = ListNode(0)
-            while l1 and l2:
-                if l2.val <= l1.val:
-                    node.next = l2
-                    l2 = l2.next
+            if len(list2) > 1:
+                m = len(list2) // 2
+                list2 = merge(list2[:m], list2[m:])
+
+            if not list1:
+                return list2
+            if not list2:
+                return list1
+
+            l, r = list1[0], list2[0]
+            head = cur = ListNode(0)
+            while l and r:
+                if l.val <= r.val:
+                    cur.next = l
+                    l = l.next
                 else:
-                    node.next = l1
-                    l1 = l1.next
-                node = node.next
-            node.next = l1 if l1 else l2
-            return head.next
+                    cur.next = r
+                    r = r.next
+                cur = cur.next
+            if l:
+                cur.next = l
+            if r:
+                cur.next = r
 
-        while len(lists) > 1:
-            ret = merge(lists[0], lists[1])
-            lists = lists[2:]
-            lists.append(ret)
-        return lists[0]
+            return [head.next]
 
-
-import queue
+        return merge([], lists)[0]
 
 
 class Solution2:
     """
-    优先队列
-    时间负责度：O(m * n * log n)
-    runtime: 250ms
+    分治算法, 简洁版
     """
 
     def mergeKLists(self, lists):
-        """
-        :type lists: List[ListNode]
-        :rtype: ListNode
-        """
-        if len(lists) == 0:
-            return None
-        if len(lists) == 1:
-            return lists[0]
+        if not lists: return None
 
-        node = head = ListNode(0)
-        pq = queue.PriorityQueue()
-        for i, li in enumerate(lists):
-            if li is not None:
-                pq.put([li.val, i])
+        def merge(l, r):
+            head = cur = ListNode(0)
+            while l and r:
+                if l.val <= r.val:
+                    cur.next = l
+                    l = l.next
+                else:
+                    cur.next = r
+                    r = r.next
+                cur = cur.next
+            cur.next = l if l else r
+            return head.next
 
-        while not pq.empty():
-            _, index = pq.get()
-            node.next = lists[index]
-            node = node.next
-            if lists[index].next == None:
-                pass
-            else:
-                lists[index] = lists[index].next
-                pq.put([lists[index].val, index])
+        def divide(l, r):
+            if l == r:  # 区间内只有一个时直接返回 ， 否则继续分隔
+                return lists[l]
+            mid = (l + r) // 2
+            left = divide(l, mid)
+            right = divide(mid + 1, r)  # [] 左闭右闭， 所以左边是 mid+1
+            return merge(left, right)
 
-        return head.next
+        return divide(0, len(lists) - 1)
 
 
 class Solution3:
     """
-    获取所有节点的val，排序后重新建立列表
-    时间负责度 O(m*n)
+    使用优先队列
+    时间负责度：O(m * n * log n)
+    runtime: 52 ms
     """
 
     def mergeKLists(self, lists):
-        """
-        :type lists: List[ListNode]
-        :rtype: ListNode
-        """
-        nums = []
-        for li in lists:
-            while li is not None:
-                nums.append(li.val)
-                li = li.next
-
-        if len(nums) == 0:
-            return None
-
-        nums.sort()
-        head = node = ListNode(nums[0])
-        for i in nums[1:]:
-            node.next = ListNode(i)
-            node = node.next
-        return head
-
-
-import heapq
-
-
-class Solution4:
-    def mergeKLists(self, lists):
-        """
-        :type lists: List[ListNode]
-        :rtype: ListNode
-        """
-        res_head, res_tail = None, None
-
-        def value_item_pair(item, uid):
-            return (item.val, uid, item)
-
-        uid = 0  # for stable sorting in heapq
+        import heapq
+        res_head = cur = ListNode(0)
         h = []
-        for item in filter(lambda lst: lst, lists):
-            heapq.heappush(h, value_item_pair(item, uid))
-            uid += 1
+        for idx, node in enumerate(lists):
+            if node:
+                # (node.val, node) 当val 重复时 node 不可比较会报错，所以使用 idx。 也可以插入一个自增值比如 (node.val, i, node)
+                heapq.heappush(h, (node.val, idx))
 
         while h:
-            val, uid, item = heapq.heappop(h)
-
-            node = ListNode(val)
-            if res_head is None:
-                res_head = node
-            if res_tail:
-                res_tail.next = node
-            res_tail = node
-
-            if item.next:
-                heapq.heappush(h, value_item_pair(item.next, uid))
-
-        return res_head
+            val, idx = heapq.heappop(h)
+            cur.next = lists[idx]
+            cur = lists[idx]
+            if lists[idx].next:
+                lists[idx] = lists[idx].next
+                heapq.heappush(h, (lists[idx].val, idx))
+        return res_head.next
 
 
 if __name__ == '__main__':
@@ -206,7 +124,7 @@ if __name__ == '__main__':
     l3.next = ListNode(8)
     l3.next.next = ListNode(9)
 
-    so = Solution3()
+    so = Solution2()
     ret = so.mergeKLists([l1, None, l2, l3])
     print("return: ", ret)
 
