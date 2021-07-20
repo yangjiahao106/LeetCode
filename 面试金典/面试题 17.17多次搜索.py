@@ -2,6 +2,10 @@ from typing import *
 
 
 class Solution:
+    """
+    前缀树
+    击败 98%
+    """
 
     def __init__(self):
         self.root = {}
@@ -45,6 +49,9 @@ import collections
 
 
 class Solution:
+    """
+    击败 94%
+    """
     def multiSearch(self, big: str, smalls: List[str]) -> List[List[int]]:
         if "" in smalls:
             return [[]]
@@ -65,3 +72,46 @@ class Solution:
                     temp.append(j)
             ans.append(temp)
         return ans
+
+
+class Solution:
+    """
+    sunday 算法
+    超时了
+    """
+
+    def multiSearch(self, big: str, smalls: List[str]) -> List[List[int]]:
+
+        res = []
+        for small in smalls:
+            res.append(self.search(big, small))
+        return res
+
+    def search(self, big: str, small: str) -> List[int]:
+        big_len = len(big)
+        small_len = len(small)
+        move = dict()
+        for i in range(len(small)):
+            move[small[i]] = small_len - i
+
+        s = 0
+        res = []
+
+        while s <= big_len - small_len:
+            j = 0
+            while big[s + j] == small[j]:
+                j += 1
+                if j >= small_len:
+                    res.append(s)
+                    break
+
+            if s + small_len >= big_len:
+                break
+
+            s += move.get(big[s + small_len], small_len + 1)
+        return res
+
+
+if __name__ == '__main__':
+    res = Solution().search("abcabacca", 'c')
+    print(res)
