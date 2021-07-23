@@ -22,8 +22,18 @@ class Solution:
 class Solution2:
     def permuteUnique(self, nums):
         """
-        :type nums: List[int]
-        :rtype: List[List[int]]
+        [1,1, 2, 2] 递归树↓（部分）
+
+                        1
+                  1     2     2
+                 2 2   1 2   1  2
+                2   2 2   1 2    1
+
+                        1
+                  1     2     2
+                 2 2   1 2   1  2
+                2   2 2   1 2    1
+
         """
 
         all_result = []
@@ -35,26 +45,30 @@ class Solution2:
         if rest == []:
             return all_results.append(result)
         for i, v in enumerate(rest):
-            if i > 0 and rest[i] == rest[i - 1]:  # 去重
+            if i > 0 and rest[i] == rest[i - 1]:  # 如果和上一个值相同则不能在这一层被再次选中了，但可以在下一层递归里被使用
                 continue
             self.helper(result + [v], rest[:i] + rest[i + 1:], all_results)  #
 
 
-class Solution3:
-    def permuteUnique(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: List[List[int]]
-        """
-        ans = [[]]
-        for n in nums:
-            new_ans = []
-            for l in ans:
-                for i in range(len(l) + 1):
-                    new_ans.append(l[:i] + [n] + l[i:])
-                    if i < len(l) and l[i] == n: break  # 使用break 而不是continue可以去除 2112 2112的重复
-            ans = new_ans
-        return ans
+from typing import *
+
+
+class Solution2:
+    """ 动态规划"""
+
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        dp = [[]]
+
+        for i in range(len(nums)):
+            dp2 = []
+
+            for path in dp:
+                for start in range(len(path) + 1):
+                    dp2.append(path[:start] + [nums[i]] + path[start:])
+                    if start < len(path) and path[start] == nums[i]:
+                        break  # 重点
+            dp = dp2
+        return dp
 
 
 if __name__ == '__main__':
