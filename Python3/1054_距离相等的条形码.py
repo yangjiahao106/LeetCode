@@ -39,3 +39,4 @@ class Solution:
         ans[::2] = data[:(l+1)//2]
         ans[1::2] = data[(l+1)//2:]
         return ans
+
