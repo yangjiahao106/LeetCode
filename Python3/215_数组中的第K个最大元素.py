@@ -31,6 +31,41 @@ class Solution:
         return heap[1]
 
 
+import random
+
+
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        # 快速排序思想
+
+        def quick_sort(left, right):
+            l, r = left, right
+            p = random.randint(left, right)
+            nums[l], nums[p] = nums[p], nums[l]
+            m = nums[l]
+
+            while l < r:
+                while l < r and nums[r] < m:
+                    r -= 1
+                nums[l], nums[r] = nums[r], nums[l]
+
+                while l < r and nums[l] >= m:
+                    l += 1
+                nums[l], nums[r] = nums[r], nums[l]
+
+            nums[l] = m
+
+            if l == k - 1:
+                return nums[l]
+
+            if l > k - 1:
+                return quick_sort(left, l - 1)
+            else:
+                return quick_sort(l + 1, right)
+
+        return quick_sort(0, len(nums) - 1)
+
+
 if __name__ == '__main__':
     res = Solution().findKthLargest([2, 1], 2)
     print(res)

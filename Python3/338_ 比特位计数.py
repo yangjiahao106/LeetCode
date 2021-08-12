@@ -15,3 +15,15 @@ class Solution:
         return dp
 
 
+class Solution:
+    def countBits(self, n: int) -> List[int]:
+        if n == 0: return [0]
+        dp = [0] * (n + 1)
+        dp[1] = 1
+
+        flag = 1  # 最高位的值
+        for i in range(1, n + 1):
+            if i // flag == 2:
+                flag = i
+            dp[i] = dp[i - flag] + 1
+        return dp

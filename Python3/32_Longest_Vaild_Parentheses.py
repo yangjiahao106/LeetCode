@@ -13,9 +13,9 @@ class Solution:
 
         for i in range(0, len(s)):
             if s[i] == '(':
-                stack.append(i)
+                stack.append(i) # 将（ 放入栈中
             else:
-                stack.pop()  # 出最后一个数据
+                stack.pop()  # 从栈中取出一个 （
                 if len(stack) == 0:  # stack为空时，右括号比左括号多一个，将此右括号作为起始点，再次查找。
                     stack.append(i)
                 else:
