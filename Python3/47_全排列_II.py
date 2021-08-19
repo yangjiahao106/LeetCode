@@ -22,7 +22,7 @@ class Solution:
 class Solution2:
     def permuteUnique(self, nums):
         """
-        [1,1, 2, 2] 递归树↓（部分）
+        [1, 1, 2, 2] 递归树↓（部分）
 
                         1
                   1     2     2
@@ -66,7 +66,17 @@ class Solution2:
                 for start in range(len(path) + 1):
                     dp2.append(path[:start] + [nums[i]] + path[start:])
                     if start < len(path) and path[start] == nums[i]:
-                        break  # 重点
+                        ''' break 的原因: 
+                        示例：baa
+                        
+                            ab
+                            ba 
+                            ->    aab # 右边遇到了相同的a，新的a可以和旧的a组成一组，旧a在其他path中会出现在后面, 所以不用将新a插入到后面了，直接break
+                                  aba
+                                  baa
+                        '''
+                        break  # 重点 遇到了相同的值
+
             dp = dp2
         return dp
 
