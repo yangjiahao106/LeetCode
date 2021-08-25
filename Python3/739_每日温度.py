@@ -19,3 +19,4 @@ class Solution:
 if __name__ == '__main__':
     res = Solution().dailyTemperatures([1,4,2,9,10])
     print(res )
+
