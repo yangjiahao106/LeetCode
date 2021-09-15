@@ -62,6 +62,65 @@ class LRUCache:
                 self.num += 1
 
 
+class Node():
+    def __init__(self, k, v):
+        self.k = k
+        self.v = v
+        self.prev = None
+        self.next = None
+
+
+class LRUCache:
+    def __init__(self, capacity: int):
+        self.d = dict()
+        self.head = Node(-1, -1)
+        self.tail = Node(-1, -1)
+        self.head.next = self.tail
+        self.tail.prev = self.head
+        self.cap = capacity
+        self.len = 0
+
+    def get(self, key: int) -> int:
+        if key not in self.d:
+            return -1
+        node = self.d[key]
+        self.remove(node)
+        self.add_to_head(node)
+        return node.v
+
+    def remove(self, node):
+        node.prev.next = node.next
+        node.next.prev = node.prev
+        node.prev = None
+        node.next = None
+
+    def add_to_head(self, node):
+        next = self.head.next
+        self.head.next = node
+        node.prev = self.head
+        node.next = next
+        next.prev = node
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.d:
+            node = self.d[key]
+            node.v = value
+            self.remove(node)
+            self.add_to_head(node)
+            return
+
+        node = Node(key, value)
+        self.d[key] = node
+        self.add_to_head(node)
+
+        if self.len == self.cap:
+            del self.d[self.tail.prev.k]
+            self.remove(self.tail.prev)
+
+        else:
+            self.len += 1
+
+
 if __name__ == '__main__':
     # ["LRUCache","put","put","get","put","get","put","get","get","get"]
     # [[2],[1,0],[2,2],[1],[3,3],[2],[4,4],[1],[3],[4]]

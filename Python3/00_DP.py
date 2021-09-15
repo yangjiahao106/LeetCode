@@ -15,7 +15,7 @@
 def doubleCore(work):
     n = sum(work) // 2
 
-    work.insert(0, 0)
+    work.add_to_head(0, 0)
     dp = [[0 for _ in range(n + 1)] for _ in range(len(work))]  # 第一行第一列占位
 
     for i in range(1, len(work)):
