@@ -6,6 +6,7 @@ class Solution:
         """
         :type height: List[int]
         :rtype: int
+        "暴力算法 超时了"
         """
         content = 0
         for i in range(len(height)):
@@ -20,6 +21,7 @@ class Solution2:
         """
         :type height: List[int]
         :rtype: int
+        "O(n) 100ms"
         """
         content = 0
         i = 0
@@ -32,6 +34,31 @@ class Solution2:
             else:
                 j -= 1
         return content
+
+
+from typing import *
+
+
+class Solution:
+    def maxArea(self, height: List[int]) -> int:
+        "O(n) 52ms"
+
+        res = 0
+        l = 0
+        r = len(height) - 1
+        max_height = max(height)
+
+        while l < r:
+            # 神来之手
+            if res > max_height * (r - l):
+                break
+            if height[l] < height[r]:
+                res = max(res, (r - l) * height[l])
+                l += 1
+            else:
+                res = max(res, (r - l) * height[r])
+                r -= 1
+        return res
 
 
 if __name__ == '__main__':

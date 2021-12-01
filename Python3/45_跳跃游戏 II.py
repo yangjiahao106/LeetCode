@@ -10,8 +10,10 @@ class Solution:
         """
         if len(nums) <= 1:
             return 0
+
         jump = step = 0
         pos = 0
+
         while pos + nums[pos] < len(nums) - 1:
             farthest = 0
             for j in range(1, nums[pos] + 1):
