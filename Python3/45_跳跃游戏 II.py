@@ -56,6 +56,23 @@ class Solution:
         return step
 
 
+class Solution:
+    def jump(self, nums: List[int]) -> int:
+        step = 0
+
+        i = 0
+        while i < len(nums) - 1 - nums[i]:
+            farthest = 0
+
+            for j in range(i + 1, i + nums[i] + 1):
+                if j + nums[j] > farthest:
+                    farthest = j + nums[j]
+                    i = j
+            step += 1
+
+        return step + 1
+
+
 if __name__ == '__main__':
     so = Solution()
     res = so.jump([2, 3, 1, 1, 4])

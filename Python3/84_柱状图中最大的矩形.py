@@ -18,4 +18,41 @@ class Solution:
         return res
 
 
-pass
+class Solution2:
+    """
+        核心思路是对于数组中的每一个数字找到第一个小于它的数字，这种问题一般需要使用单调栈
+
+    """
+
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        # 单调栈 + 常数优化
+        n = len(heights)
+        if n == 0:
+            return 0
+
+        stack = []
+
+        left, right = [0] * n, [0] * n
+
+        for i in range(n):
+            while stack and heights[i] <= heights[stack[-1]]:
+                stack.pop()
+
+            left[i] = stack[-1] if stack else -1
+
+            stack.append(i)
+
+        stack = []
+        for i in range(n - 1, -1, -1):
+            while stack and heights[i] <= heights[stack[-1]]:
+                stack.pop()
+
+            right[i] = stack[-1] if stack else n
+            stack.append(i)
+
+        res = max((right[i] - left[i] - 1) * heights[i] for i in range(n))
+        return res
+
+
+if __name__ == '__main__':
+    pass
