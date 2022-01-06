@@ -45,20 +45,19 @@ class Solution2:
     # 根据高度求最大面积 参考 leetCode:  84. 柱状图中最大的矩形
 
     def getMaxAreaWighHeights(self, heights):
-        n = len(heights)
 
+        heights = [0] + heights + [0]
         stack = []
-
-        left = [0] * n
-        right = [n] * n
-        for i in range(n):
-            while stack and heights[i] <= heights[stack[-1]]:
-                right[stack[-1]] = i
-                stack.pop()
-
-            left[i] = stack[-1] if stack else -1
+        ans = 0
+        for i in range(len(heights)):
+            while stack and heights[i] < heights[stack[-1]]:
+                h = heights[stack.pop()]
+                w = i - stack[-1] - 1
+                ans = max(ans, h * w)
             stack.append(i)
-        return max((right[i] - left[i] - 1) * heights[i] for i in range(n))
+
+        # print(heights, ans)
+        return ans
 
     def maximalRectangle(self, matrix: List[List[str]]) -> int:
         ans = 0
@@ -66,7 +65,7 @@ class Solution2:
 
         for i in range(len(matrix)):
             for j in range(len(matrix[0])):
-                heights[j] += 1 if matrix[i][j] == "1" else 0
+                heights[j] = heights[j] + 1 if matrix[i][j] == "1" else 0
 
             ans = max(ans, self.getMaxAreaWighHeights(heights))
         return ans
@@ -78,4 +77,6 @@ if __name__ == '__main__':
                                ["1", "0", "1", "1", "1"],
                                ["1", "1", "1", "1", "1"],
                                ["1", "0", "0", "1", "0"]])
+    print(res)
+    res = so.maximalRectangle([["0", "1"], ["1", "0"]])
     print(res)
