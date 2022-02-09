@@ -1,65 +1,58 @@
 class Node:
-    def __init__(self, key, val):
-        self.key = key
-        self.val = val
-        self.next: Node = None
-        self.pre: Node = None
+    def __init__(self, k: int, v: int):
+        self.key = k
+        self.val = v
+        self.next = None
+        self.pre = None
 
 
 class LRUCache:
-
     def __init__(self, capacity: int):
-        self.capacity = capacity
-        self.num = 0
-        self.head = Node(0, -1)
-        self.tail = None
+        self.cap = capacity
         self.dict = dict()
+        self.head = Node(0, 0)
+        self.tail = Node(0, 0)
+        self.head.next = self.tail
+        self.tail.pre = self.head
+        self.len = 0
 
     def get(self, key: int) -> int:
         if key in self.dict:
-            node: Node = self.dict[key]
-            node.pre.next = node.next
-            if node.next:
-                node.next.pre = node.pre
-            elif node.pre != self.head:
-                self.tail = node.pre  # 更新tail
-            if self.head.next:
-                self.head.next.pre = node
+            node = self.dict[key]
+            pre = node.pre
+            pre.next = node.next
+            node.next.pre = pre
             node.next = self.head.next
-            self.head.next = node
+            self.head.next.pre = node
             node.pre = self.head
+            self.head.next = node
+
             return node.val
         else:
             return -1
 
     def put(self, key: int, value: int) -> None:
-        # update
         if key in self.dict:
-            self.get(key)
+            self.get(key)  # move to head
             self.dict[key].val = value
 
         else:
-            # 插入
             node = Node(key, value)
             self.dict[key] = node
+
+            self.head.next.pre = node
+
             node.next = self.head.next
-            if self.head.next:
-                self.head.next.pre = node
             self.head.next = node
             node.pre = self.head
 
-            if self.tail is None:  # 初始化 Tail
-                self.tail = node
-
-                # 删除尾部节点
-            if self.num >= self.capacity:
-                del self.dict[self.tail.key]
+            if self.len >= self.cap:
+                del self.dict[self.tail.pre.key]
                 pre = self.tail.pre
-                self.tail.pre.next = None
+                pre.next = None
                 self.tail = pre
-
             else:
-                self.num += 1
+                self.len += 1
 
 
 class Node():
