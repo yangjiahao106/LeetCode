@@ -45,3 +45,30 @@ class Solution2:
                 root = root.left
 
         return res[::-1]
+
+
+class Solution3:
+    """
+    迭代版
+    """
+
+    def postorderTraversal(self, root: TreeNode) -> List[int]:
+        res = []
+        prev = None
+        stack = []
+
+        while root or stack:
+            while root:
+                stack.append(root)
+                root = root.left
+
+            root = stack.pop()
+
+            if root.right is None or root.right == prev:  # 没有右节点或从右节点回来后弹出时才需要输出
+                res.append(root.val)
+                prev = root
+                root = None
+
+            else:
+                stack.append(root)  #
+                root = root.right

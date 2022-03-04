@@ -89,7 +89,6 @@ class Solution:
                 return quick_sort(left, i - 1)
             else:
                 return quick_sort(i + 1, right)
-
         return quick_sort(0, len(nums) - 1)
 
 if __name__ == '__main__':
